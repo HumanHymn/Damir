@@ -117,6 +117,20 @@ body {
     box-shadow: 0 8px 25px rgba(25, 114, 120, 0.25);
 }
 
+.calendar-btn {
+    border: 2px solid var(--accent-color);
+    background: transparent;
+    color: var(--text-primary);
+    border-radius: 8px;
+    padding: calc(0.8rem - 2px) 2rem;
+}
+
+.calendar-btn:hover {
+    background: rgba(25, 114, 120, 0.1);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(25, 114, 120, 0.25);
+}
+
 /* Navigation */
 .navbar {
     position: fixed;
@@ -478,8 +492,42 @@ footer {
     transform: translateY(0);
 }
 
+/* Mobile Collapsible Sections */
+.mobile-expand-btn {
+    display: none;
+    margin: 2rem auto 0;
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: 2px solid var(--accent-color);
+    background: transparent;
+    color: var(--text-primary);
+    border-radius: 50px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.mobile-expand-btn:hover {
+    background: rgba(25, 114, 120, 0.1);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(25, 114, 120, 0.25);
+}
+
 /* Mobile Responsiveness */
 @media screen and (max-width: 768px) {
+    .skills.collapsed .skill-card:nth-child(n+7) {
+        display: none;
+    }
+
+    .projects-grid.collapsed .project-card:nth-child(n+4) {
+        display: none;
+    }
+
+    .skills.collapsed+.mobile-expand-btn,
+    .projects-grid.collapsed+.mobile-expand-btn {
+        display: block;
+    }
+
     .nav-menu {
         position: fixed;
         right: -100%;
