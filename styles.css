@@ -33,12 +33,34 @@ html {
     scroll-behavior: smooth;
 }
 
+html {
+    background-color: var(--bg-dark);
+}
+
 body {
     font-family: 'Outfit', sans-serif;
-    background-color: var(--bg-dark);
+    background-color: transparent;
     color: var(--text-primary);
     line-height: 1.6;
     overflow-x: hidden;
+}
+
+.bg-stripes {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: calc(50% - 106px);
+    width: 46px;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.55;
+    background:
+        linear-gradient(#3a5a7a, #3a5a7a) 0 0/6px 100% no-repeat,
+        linear-gradient(#1f3a2a, #1f3a2a) 8px 0/6px 100% no-repeat,
+        linear-gradient(#6b1f1f, #6b1f1f) 16px 0/6px 100% no-repeat,
+        linear-gradient(#b55a1b, #b55a1b) 24px 0/6px 100% no-repeat,
+        linear-gradient(#5a6b5a, #5a6b5a) 32px 0/6px 100% no-repeat,
+        linear-gradient(#9a2a5a, #9a2a5a) 40px 0/6px 100% no-repeat;
 }
 
 .highlight {
@@ -105,7 +127,7 @@ body {
     padding: 0.65rem 1.7rem;
     font-size: 0.85rem;
     border: 2px solid var(--accent-color);
-    background: transparent;
+    background: #141414;
     color: var(--text-primary);
     border-radius: 8px;
     /* Slightly rounded corners */
@@ -129,6 +151,13 @@ body {
     background: rgba(25, 114, 120, 0.1);
     transform: translateY(-3px);
     box-shadow: 0 8px 25px rgba(25, 114, 120, 0.25);
+}
+
+.view-work-btn {
+    min-width: 280px;
+    text-align: center;
+    padding-left: 3rem;
+    padding-right: 3rem;
 }
 
 /* Navigation */
@@ -438,6 +467,12 @@ body {
     max-width: 600px;
     margin: 0 auto;
     text-align: center;
+    position: relative;
+    overflow: hidden;
+    background-color: var(--glass-bg);
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'><g fill='none' stroke='%23ff751f' stroke-opacity='0.22' stroke-width='1.1' stroke-linecap='round' stroke-linejoin='round'><path d='M80 10 C 110 30, 110 60, 80 80 C 50 60, 50 30, 80 10 Z'/><path d='M80 150 C 110 130, 110 100, 80 80 C 50 100, 50 130, 80 150 Z'/><path d='M10 80 C 30 50, 60 50, 80 80 C 60 110, 30 110, 10 80 Z'/><path d='M150 80 C 130 50, 100 50, 80 80 C 100 110, 130 110, 150 80 Z'/><circle cx='80' cy='80' r='10'/><circle cx='80' cy='80' r='26'/><path d='M80 54 L 80 40 M80 106 L 80 120 M54 80 L 40 80 M106 80 L 120 80'/></g></svg>");
+    background-repeat: repeat;
+    background-size: 90px 90px;
 }
 
 .contact-wrapper p {
@@ -455,7 +490,7 @@ body {
 .contact-form textarea {
     width: 100%;
     padding: 1rem;
-    background: rgba(255, 255, 255, 0.05);
+    background: #141414;
     border: 1px solid var(--glass-border);
     border-radius: 8px;
     color: var(--text-primary);

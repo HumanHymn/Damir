@@ -22,6 +22,7 @@
 </head>
 
 <body>
+    <div class="bg-stripes" aria-hidden="true"></div>
     <nav class="navbar glass-effect">
         <div class="nav-container">
             <a href="#" class="logo">Damir<span>.</span></a>
@@ -45,10 +46,8 @@
             <h1>Hi, I'm <span class="highlight">Damir Regoč</span></h1>
             <p>I'm Damir; a professional with 15 years in marketing, and a reputation for actually getting stuff done.
             </p>
-            <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center;">
-                <a href="#experience" class="btn calendar-btn">View My Work</a>
-                <a href="https://calendar.app.google/9NEidb7fWVbVXmM5A" target="_blank"
-                    class="btn calendar-btn">Schedule a meeting via Google Calendar</a>
+            <div style="margin-top: 2rem; display: flex; justify-content: center;">
+                <a href="#experience" class="btn calendar-btn view-work-btn">View My Work</a>
             </div>
         </div>
         <div class="hero-shapes">
@@ -74,6 +73,16 @@
                     collaboration, and an obsession with creating systems, organized workflows and meeting deadlines.
                 </p>
                 <div class="skills collapsed">
+                    <!-- AI / Priority -->
+                    <div class="skill-card">
+                        <img src="https://cdn.simpleicons.org/claude" alt="Claude Code" class="skill-icon">
+                        <span class="skill-name">Claude Code</span>
+                    </div>
+                    <div class="skill-card">
+                        <img src="https://cdn.simpleicons.org/hubspot" alt="HubSpot" class="skill-icon">
+                        <span class="skill-name">HubSpot</span>
+                    </div>
+
                     <!-- Web / E-Commerce -->
                     <div class="skill-card">
                         <img src="https://cdn.simpleicons.org/wordpress" alt="WordPress" class="skill-icon">
@@ -158,16 +167,8 @@
                         <span class="skill-name">Zapier</span>
                     </div>
                     <div class="skill-card">
-                        <img src="https://cdn.simpleicons.org/replit" alt="Replit" class="skill-icon">
-                        <span class="skill-name">Replit</span>
-                    </div>
-                    <div class="skill-card">
                         <img src="manus.svg.svg" alt="Manus" class="skill-icon">
                         <span class="skill-name">Manus</span>
-                    </div>
-                    <div class="skill-card">
-                        <img src="antigravity.svg" alt="Antigravity" class="skill-icon">
-                        <span class="skill-name">Antigravity</span>
                     </div>
                     <div class="skill-card">
                         <img src="https://cdn.simpleicons.org/notion" alt="Notion" class="skill-icon">
@@ -182,20 +183,12 @@
                         <span class="skill-name">Asana / Trello</span>
                     </div>
                     <div class="skill-card">
-                        <img src="https://cdn.simpleicons.org/claude" alt="Claude" class="skill-icon">
-                        <span class="skill-name">Claude</span>
-                    </div>
-                    <div class="skill-card">
                         <img src="https://cdn.simpleicons.org/googlegemini" alt="Gemini" class="skill-icon">
                         <span class="skill-name">Gemini</span>
                     </div>
                     <div class="skill-card">
                         <img src="https://cdn.simpleicons.org/cursor" alt="Cursor" class="skill-icon">
                         <span class="skill-name">Cursor</span>
-                    </div>
-                    <div class="skill-card">
-                        <img src="https://cdn.simpleicons.org/visualstudiocode" alt="VS Code" class="skill-icon">
-                        <span class="skill-name">VS Code</span>
                     </div>
                     <div class="skill-card">
                         <img src="https://cdn.simpleicons.org/github" alt="GitHub" class="skill-icon">
@@ -219,10 +212,6 @@
                         <img src="klaviyo.svg.svg" alt="Klaviyo" class="skill-icon">
                         <span class="skill-name">Klaviyo</span>
                     </div>
-                    <div class="skill-card">
-                        <img src="https://cdn.simpleicons.org/mailchimp" alt="Mailchimp" class="skill-icon">
-                        <span class="skill-name">Mailchimp</span>
-                    </div>
                 </div>
                 <button class="mobile-expand-btn" id="expand-skills-btn">See More Skills ⌄</button>
             </div>
@@ -233,6 +222,14 @@
         <div class="section-container fade-in">
             <h2 class="section-title">Experience & Projects</h2>
             <div class="projects-grid collapsed">
+                <div class="project-card glass-card">
+                    <div class="project-info">
+                        <h3>Sunday Club</h3>
+                        <p>Supported digital operations and marketing workflows for this puzzle brand, helping with
+                            content, site performance, and customer experience.</p>
+                        <a href="https://sundayclub.com/" target="_blank" class="btn-link">Visit Site ➔</a>
+                    </div>
+                </div>
                 <div class="project-card glass-card">
                     <div class="project-info">
                         <h3>SEO Dynamic Media</h3>
