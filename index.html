@@ -33,10 +33,22 @@
                 <span class="bar"></span>
             </div>
             <ul class="nav-menu">
-                <li><a href="#home" class="nav-links">Home</a></li>
-                <li><a href="#about" class="nav-links">About</a></li>
-                <li><a href="#experience" class="nav-links">Experience</a></li>
-                <li><a href="#contact" class="nav-links">Contact</a></li>
+                <li><a href="#home" class="nav-links" data-label="Home" aria-label="Home">
+                        <img src="shape1.svg" alt="" class="nav-icon">
+                        <span class="nav-text">Home</span>
+                    </a></li>
+                <li><a href="#about" class="nav-links" data-label="About" aria-label="About">
+                        <img src="shape2.svg" alt="" class="nav-icon">
+                        <span class="nav-text">About</span>
+                    </a></li>
+                <li><a href="#experience" class="nav-links" data-label="Experience" aria-label="Experience">
+                        <img src="shape3.svg" alt="" class="nav-icon">
+                        <span class="nav-text">Experience</span>
+                    </a></li>
+                <li><a href="#contact" class="nav-links" data-label="Contact" aria-label="Contact">
+                        <img src="shape4.svg" alt="" class="nav-icon">
+                        <span class="nav-text">Contact</span>
+                    </a></li>
             </ul>
         </div>
     </nav>
@@ -321,7 +333,43 @@
         <div class="section-container fade-in">
             <h2 class="section-title">Get In Touch</h2>
             <div class="contact-wrapper glass-card">
-                <p>Loved what you read? I’m always available and ready to bring my extreme work ethic to your next
+                <svg class="contact-pattern" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" preserveAspectRatio="xMinYMin slice">
+                    <defs>
+                        <pattern id="contactShapeTile" x="0" y="0" width="250" height="250" patternUnits="userSpaceOnUse">
+                            <image href="shape1.svg" x="0"   y="0"   width="50" height="50"/>
+                            <image href="shape2.svg" x="50"  y="0"   width="50" height="50"/>
+                            <image href="shape3.svg" x="100" y="0"   width="50" height="50"/>
+                            <image href="shape4.svg" x="150" y="0"   width="50" height="50"/>
+                            <image href="shape5.svg" x="200" y="0"   width="50" height="50"/>
+
+                            <image href="shape2.svg" x="0"   y="50"  width="50" height="50"/>
+                            <image href="shape3.svg" x="50"  y="50"  width="50" height="50"/>
+                            <image href="shape4.svg" x="100" y="50"  width="50" height="50"/>
+                            <image href="shape5.svg" x="150" y="50"  width="50" height="50"/>
+                            <image href="shape1.svg" x="200" y="50"  width="50" height="50"/>
+
+                            <image href="shape3.svg" x="0"   y="100" width="50" height="50"/>
+                            <image href="shape4.svg" x="50"  y="100" width="50" height="50"/>
+                            <image href="shape5.svg" x="100" y="100" width="50" height="50"/>
+                            <image href="shape1.svg" x="150" y="100" width="50" height="50"/>
+                            <image href="shape2.svg" x="200" y="100" width="50" height="50"/>
+
+                            <image href="shape4.svg" x="0"   y="150" width="50" height="50"/>
+                            <image href="shape5.svg" x="50"  y="150" width="50" height="50"/>
+                            <image href="shape1.svg" x="100" y="150" width="50" height="50"/>
+                            <image href="shape2.svg" x="150" y="150" width="50" height="50"/>
+                            <image href="shape3.svg" x="200" y="150" width="50" height="50"/>
+
+                            <image href="shape5.svg" x="0"   y="200" width="50" height="50"/>
+                            <image href="shape1.svg" x="50"  y="200" width="50" height="50"/>
+                            <image href="shape2.svg" x="100" y="200" width="50" height="50"/>
+                            <image href="shape3.svg" x="150" y="200" width="50" height="50"/>
+                            <image href="shape4.svg" x="200" y="200" width="50" height="50"/>
+                        </pattern>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#contactShapeTile)"/>
+                </svg>
+                <p>Loved what you read? I’m currently available and ready to bring my extreme work ethic to your next
                     project. Connect with me directly on LinkedIn or via the form.</p>
                 <div style="margin: 2rem 0; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
                     <a href="https://wa.me/5213317640289" target="_blank" class="btn contact-btn">WhatsApp</a>
@@ -346,7 +394,7 @@
     </section>
 
     <footer>
-        <p>&copy; 2026 Damir Regoč. Extreme Work Ethics. Always Available.</p>
+        <p>&copy; 2026 Damir Regoč. Extreme Work Ethics.</p>
     </footer>
 
     <script src="script.js"></script>

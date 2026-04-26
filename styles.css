@@ -134,7 +134,7 @@ body {
 }
 
 .contact-btn:hover {
-    background: rgba(25, 114, 120, 0.1);
+    background: #141d1e;
     transform: translateY(-3px);
     box-shadow: 0 8px 25px rgba(25, 114, 120, 0.25);
 }
@@ -199,6 +199,9 @@ body {
 }
 
 .nav-links {
+    position: relative;
+    display: flex;
+    align-items: center;
     color: var(--text-secondary);
     text-decoration: none;
     font-weight: 400;
@@ -208,6 +211,53 @@ body {
 
 .nav-links:hover {
     color: var(--accent-color);
+}
+
+.nav-icon {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    display: block;
+    filter: opacity(0.9);
+    transition: var(--transition);
+}
+
+.nav-links:hover .nav-icon,
+.nav-links:focus-visible .nav-icon {
+    filter: opacity(1);
+    transform: scale(1.1);
+}
+
+.nav-text {
+    display: none;
+}
+
+/* Tooltip: instant disappear, 0.5s delayed appear (asymmetry is intentional). */
+.nav-links::after {
+    content: attr(data-label);
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 50%;
+    padding: 0.4rem 0.9rem;
+    background: rgba(10, 10, 10, 0.95);
+    border: 1px solid var(--accent-color);
+    border-radius: 6px;
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    font-weight: 600;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(-50%) translateY(-4px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.nav-links:hover::after,
+.nav-links:focus-visible::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+    transition-delay: 0.5s;
 }
 
 /* Mobile Menu Toggle */
@@ -502,6 +552,22 @@ body {
     */
 }
 
+.contact-pattern {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    filter: grayscale(1);
+    opacity: 0.35;
+    z-index: 0;
+}
+
+.contact-wrapper > *:not(.contact-pattern) {
+    position: relative;
+    z-index: 1;
+}
+
 .contact-wrapper p {
     color: var(--text-secondary);
     margin-bottom: 2rem;
@@ -530,7 +596,7 @@ body {
 .contact-form textarea:focus {
     outline: none;
     border-color: var(--accent-color);
-    background: rgba(25, 114, 120, 0.08);
+    background: #141b1c;
 }
 
 /* Footer */
@@ -543,14 +609,15 @@ footer {
 }
 
 /* Animations */
+/* No opacity here — Chromium suppresses backdrop-filter on descendants
+   while an ancestor has opacity < 1, which made the .glass-card blur
+   snap on only after the fade transition finished. Slide-up only. */
 .fade-in {
-    opacity: 0;
     transform: translateY(30px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    transition: transform 0.8s ease-out;
 }
 
 .fade-in.appear {
-    opacity: 1;
     transform: translateY(0);
 }
 
@@ -611,6 +678,19 @@ footer {
 
     .nav-menu li {
         margin: 2.5rem 0;
+    }
+
+    .nav-links {
+        justify-content: center;
+        gap: 0.75rem;
+    }
+
+    .nav-text {
+        display: inline;
+    }
+
+    .nav-links::after {
+        display: none;
     }
 
     .menu-toggle {

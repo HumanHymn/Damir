@@ -1,17 +1,19 @@
 /**
- * Animated favicon — alternating "D" / "R" letters that pulse in strong orange.
+ * Animated favicon — cycles through 5 SVG shapes that pulse in strong orange.
  *
- * Per letter (1.5 s):
+ * Per shape (1.5 s):
  *   - Fade in    (0.2 s)  alpha 0 -> 1
- *   - Hold       (1.0 s)  brightness, glow, and stroke thickness ramp up linearly
+ *   - Hold       (1.0 s)  glow and brightness ramp up linearly
  *   - Fade out   (0.3 s)  alpha 1 -> 0
  *
- * No movement, just identity-style pulsing. Matches site brand orange.
- *
- * - Drawn on canvas, no image assets.
+ * - Drawn on canvas, SVG sources loaded as <img>.
  * - Pauses while the tab is hidden.
- * - Respects prefers-reduced-motion (shows a static glowing "D" instead).
+ * - Respects prefers-reduced-motion (shows a static glowing shape1 instead).
  * - Throttled to ~15 fps.
+ *
+ * Note: when running from file:// some browsers may block canvas.toDataURL()
+ * after drawing same-origin SVGs. Serve the site over a local HTTP server
+ * (e.g. `python -m http.server`) if the favicon stops updating.
  */
 (function () {
     'use strict';
@@ -33,78 +35,70 @@
     const PHASE_IN = 200;
     const PHASE_HOLD = 1000;
     const PHASE_OUT = 300;
-    const LETTER_MS = PHASE_IN + PHASE_HOLD + PHASE_OUT; // 1500
-    const LETTERS = ['D', 'R'];
-    const CYCLE_MS = LETTER_MS * LETTERS.length;          // 3000
+    const SHAPE_MS = PHASE_IN + PHASE_HOLD + PHASE_OUT; // 1500
+    const SHAPE_SRCS = [
+        'shape1.svg',
+        'shape2.svg',
+        'shape3.svg',
+        'shape4.svg',
+        'shape5.svg'
+    ];
+    const CYCLE_MS = SHAPE_MS * SHAPE_SRCS.length;
 
-    // ---- Color (strong orange) ------------------------------------------------
-    const ORANGE = { r: 255, g: 90, b: 0 };               // base "strong orange"
-    const ORANGE_HOT = { r: 255, g: 190, b: 110 };        // peak (brightened end)
+    // ---- Color (matches site brand orange) ------------------------------------
+    const ORANGE = 'rgba(255, 90, 0, 1)';
 
     function lerp(a, b, t) { return a + (b - a) * t; }
-    function mix(c1, c2, t) {
-        return {
-            r: Math.round(lerp(c1.r, c2.r, t)),
-            g: Math.round(lerp(c1.g, c2.g, t)),
-            b: Math.round(lerp(c1.b, c2.b, t))
-        };
-    }
-    function rgba(c, a) { return `rgba(${c.r},${c.g},${c.b},${a})`; }
 
-    // ---- Letter styling -------------------------------------------------------
-    const FONT_FAMILY = '"Outfit", system-ui, -apple-system, "Segoe UI", sans-serif';
-    const FONT_PX = SIZE * 0.92;
-    const FONT_WEIGHT = 900;
-    const Y_NUDGE = SIZE * 0.04; // canvas baselines render slightly high; nudge down
+    // ---- Preload images -------------------------------------------------------
+    const images = SHAPE_SRCS.map(src => {
+        const img = new Image();
+        img.src = src;
+        return img;
+    });
 
-    function setFont() {
-        ctx.font = `${FONT_WEIGHT} ${FONT_PX}px ${FONT_FAMILY}`;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
+    function imagesReady() {
+        return Promise.all(images.map(img =>
+            img.complete && img.naturalWidth
+                ? Promise.resolve()
+                : new Promise(res => {
+                    img.onload = res;
+                    img.onerror = res;
+                })
+        ));
     }
 
-    function drawLetter(letter, alpha, intensity) {
+    function drawShape(img, alpha, intensity) {
         ctx.clearRect(0, 0, SIZE, SIZE);
-        if (alpha <= 0) {
-            link.href = canvas.toDataURL('image/png');
+        if (alpha <= 0 || !img || !img.naturalWidth) {
+            try { link.href = canvas.toDataURL('image/png'); } catch (_) { }
             return;
         }
 
-        setFont();
         ctx.globalAlpha = alpha;
-
-        // Brightness ramps the fill from base orange toward a hot peak.
-        const fill = mix(ORANGE, ORANGE_HOT, intensity * 0.6);
-
-        // Glow grows during hold.
-        ctx.shadowColor = rgba(ORANGE, 1);
+        ctx.shadowColor = ORANGE;
         ctx.shadowBlur = lerp(2, 18, intensity);
 
-        const cx = SIZE / 2;
-        const cy = SIZE / 2 + Y_NUDGE;
-
-        ctx.fillStyle = rgba(fill, 1);
-        ctx.fillText(letter, cx, cy);
-
-        // Stroke thickens slightly during hold to reinforce the "swelling" feel.
-        if (intensity > 0) {
-            ctx.strokeStyle = rgba(fill, 1);
-            ctx.lineJoin = 'round';
-            ctx.lineWidth = lerp(0, SIZE * 0.05, intensity);
-            ctx.strokeText(letter, cx, cy);
+        // Brightness ramps up during hold for the same "swelling" feel.
+        if ('filter' in ctx) {
+            ctx.filter = `brightness(${(1 + intensity * 0.4).toFixed(2)})`;
         }
 
+        ctx.drawImage(img, 0, 0, SIZE, SIZE);
+
+        if ('filter' in ctx) ctx.filter = 'none';
         ctx.shadowBlur = 0;
         ctx.globalAlpha = 1;
 
-        link.href = canvas.toDataURL('image/png');
+        try { link.href = canvas.toDataURL('image/png'); } catch (_) { }
     }
 
     function renderFrame(elapsed) {
-        const phase = elapsed % CYCLE_MS;
-        const idx = Math.floor(phase / LETTER_MS);
-        const t = phase - idx * LETTER_MS; // 0..LETTER_MS within current letter
-        const letter = LETTERS[idx];
+        const safe = Math.max(0, elapsed);
+        const phase = safe % CYCLE_MS;
+        const idx = Math.floor(phase / SHAPE_MS) % SHAPE_SRCS.length;
+        const t = phase - idx * SHAPE_MS; // 0..SHAPE_MS within current shape
+        const img = images[idx];
 
         let alpha, intensity;
         if (t < PHASE_IN) {
@@ -118,12 +112,12 @@
             intensity = 1; // glow stays at peak as it fades out
         }
 
-        drawLetter(letter, alpha, intensity);
+        drawShape(img, alpha, intensity);
     }
 
     function renderStatic() {
-        // For reduced-motion users: a steady, mid-glow "D".
-        drawLetter('D', 1, 0.5);
+        // For reduced-motion users: a steady, mid-glow shape1.
+        drawShape(images[0], 1, 0.5);
     }
 
     // ---- Main loop ------------------------------------------------------------
@@ -159,18 +153,10 @@
         renderStatic();
     }
 
-    // Wait for "Outfit" (and other site fonts) to be ready so the favicon
-    // matches the site logo's typography from the very first frame.
-    function boot() {
+    imagesReady().then(() => {
         if (reduceMotion.matches) renderStatic();
         else startAnimation();
-    }
-
-    if (document.fonts && document.fonts.ready) {
-        document.fonts.ready.then(boot);
-    } else {
-        boot();
-    }
+    });
 
     reduceMotion.addEventListener('change', (e) => {
         if (e.matches) stopAnimation();
